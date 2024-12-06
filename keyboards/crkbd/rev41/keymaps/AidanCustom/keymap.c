@@ -16,7 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #include QMK_KEYBOARD_H
+#include <stdint.h>
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3(
@@ -68,6 +71,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   )
 };
+
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+  // Turn off all LEDs
+  const int led_index = 7;
+
+  // Set the RGB matrix to the current layer color
+  switch (get_highest_layer(layer_state)) {
+    case 0:
+      rgb_matrix_set_color(led_index, 255, 255, 255); // RGB_WHITE
+      break;
+    case 1:
+      rgb_matrix_set_color(led_index, 0, 0, 255); // RGB_BLUE
+      break;
+    case 2:
+      rgb_matrix_set_color(led_index, 0, 255, 0); // RGB_GREEN
+      break;
+    case 3:
+      rgb_matrix_set_color(led_index, 128, 0, 128); // RGB_PURPLE
+      break;
+    default:
+      break;
+  }
+}
+
 
 #ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
